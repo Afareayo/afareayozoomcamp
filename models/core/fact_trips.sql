@@ -34,7 +34,41 @@ select trips_unioned.tripid,
     trips_unioned.dropoff_locationid,
     dropoff_zone.borough as dropoff_borough, 
     dropoff_zone.zone as dropoff_zone,  
-    trips_unioned.pickup_datetime, 
+    trips_unioned.pickup_datetime,
+    extract(YEAR FROM trips_unioned.pickup_datetime) as year,
+    extract(MONTH FROM trips_unioned.pickup_datetime) as month,
+    case
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 1 then 1
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 2 then 1
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 3 then 1
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 4 then 2
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 5 then 2
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 6 then 2
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 7 then 3
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 8 then 3
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 9 then 3
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 10 then 4
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 11 then 4
+        when extract(MONTH FROM trips_unioned.pickup_datetime) = 12 then 4
+        else null
+    end as quarter,
+    /*
+    case
+        when MONTH(trips_unioned.pickup_datetime) = 1 then 1
+        when MONTH(trips_unioned.pickup_datetime) = 2 then 1
+        when MONTH(trips_unioned.pickup_datetime) = 3 then 1
+        when MONTH(trips_unioned.pickup_datetime) = 4 then 2
+        when MONTH(trips_unioned.pickup_datetime) = 5 then 2
+        when MONTH(trips_unioned.pickup_datetime) = 6 then 2
+        when MONTH(trips_unioned.pickup_datetime) = 7 then 3
+        when MONTH(trips_unioned.pickup_datetime) = 8 then 3
+        when MONTH(trips_unioned.pickup_datetime) = 9 then 3
+        when MONTH(trips_unioned.pickup_datetime) = 10 then 4
+        when MONTH(trips_unioned.pickup_datetime) = 11 then 4
+        when MONTH(trips_unioned.pickup_datetime) = 12 then 4
+        else null
+    end as quarter,
+    */
     trips_unioned.dropoff_datetime, 
     trips_unioned.store_and_fwd_flag, 
     trips_unioned.passenger_count, 
